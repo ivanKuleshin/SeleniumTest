@@ -1,11 +1,17 @@
-package pages;
+package pages.contactus;
 
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.BasePage;
+import utils.WaitUtils;
 
 @Getter
 public class ContactUsPage extends BasePage {
+
+  @FindBy(xpath = "//h2[@name='contactme']")
+  private WebElement pageHeading;
 
   @FindBy(name = "first_name")
   private WebElement firstNameInput;
@@ -26,11 +32,15 @@ public class ContactUsPage extends BasePage {
     super();
   }
 
-  public void openContactUsPage() {
+  @Override
+  public void openPage() {
     navigateTo(propertiesProvider.getProperty("contactUsUrl"));
+    waitForPageLoad();
+    pageIsValid();
   }
 
-  public void clickSubmitButton() {
-    waitAndClick(submitButton);
+  @Override
+  public void pageIsValid() {
+    WaitUtils.getDriverWait().until(ExpectedConditions.visibilityOf(pageHeading));
   }
 }

@@ -3,20 +3,20 @@
 Feature: WebDriver University - Login Page
 
   Background:
-    Given I open login page
+    Given User opens "LoginPage" page
+    And User waits until "LoginPage" page will be loaded
 
   Scenario: Successful Login
-    When I enter default user name
-    And I enter default user password
-    And I click login button
-    Then I see the login message: "validation succeeded"
+    When User performs login with default credentials
+    And User performs default click on the "loginButton" element on the "LoginPage" page
+    Then User sees "validation succeeded" text in the alert window
 
   Scenario Outline: Unsuccessful Login
-    When I enter user name: "<userName>"
-    And I enter user password: "<userPassword>"
-    And I click login button
-    Then I see the login message: "validation failed"
+    When User types "<userName>" value to "userNameInput" element on the "LoginPage" page
+    And User types "<userPassword>" value to "userPasswordInput" element on the "LoginPage" page
+    And User performs default click on the "loginButton" element on the "LoginPage" page
+    Then User sees "<loginMessage>" text in the alert window
 
     Examples:
-      | userName     | userPassword        |
-      | testUserName | invalidUserPassword |
+      | userName     | userPassword        | loginMessage      |
+      | testUserName | invalidUserPassword | validation failed |
