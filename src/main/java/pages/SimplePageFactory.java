@@ -5,6 +5,7 @@ import driver.DriverProvider;
 import exceptions.TestExecutionException;
 import pages.contactus.ContactUsPage;
 import pages.login.LoginPage;
+import pages.texteffects.TextEffectsPage;
 
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class SimplePageFactory {
       new ImmutableMap.Builder<String, Class<? extends BasePage>>()
           .put("ContactUsPage", ContactUsPage.class)
           .put("LoginPage", LoginPage.class)
+          .put("TextEffectsPage", TextEffectsPage.class)
           .build();
 
   public static BasePage getPage(String pageName) {

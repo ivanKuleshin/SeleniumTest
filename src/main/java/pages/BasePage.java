@@ -50,6 +50,9 @@ public abstract class BasePage {
   }
 
   public void waitForPageLoad() {
+//    Another way:
+//    wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+
     ExpectedCondition<Boolean> expectedCondition =
         condition ->
             ((JavascriptExecutor) driver)

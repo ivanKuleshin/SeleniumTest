@@ -38,7 +38,6 @@ public class LoginPage extends BasePage {
       System.out.println(timeoutException.getMessage());
       throw new TestExecutionException("Page '%s' is not valid!", this.getClass().getSimpleName());
     }
-
   }
 
   public void enterUserName(String userName) {

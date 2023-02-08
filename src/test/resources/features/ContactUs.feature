@@ -1,11 +1,11 @@
 @contact-us @regression
-Feature: WebDriver University - Contact Us Page
+Feature: Selenium Test - Contact Us Page
 
   Background:
     Given User opens "ContactUsPage" page
     And User waits until "ContactUsPage" page will be loaded
 
-  Scenario: Validate Successful Submission - Unique Data
+  Scenario: 01 | Validate Successful Submission - Unique Data
     When User types "Ivan" value to "firstNameInput" element on the "ContactUsPage" page
     And User types "Ivanovich" value to "lastNameInput" element on the "ContactUsPage" page
     And User types "ivan.test@gmail.com" value to "emailInput" element on the "ContactUsPage" page
@@ -13,7 +13,7 @@ Feature: WebDriver University - Contact Us Page
     And User performs default click on the "submitButton" element on the "ContactUsPage" page
     Then User sees "submissionMessage" element with a "Thank You for your Message!" text on the "ContactUsPage" page
 
-  Scenario Outline: Validate Successful Submission - Specific Data
+  Scenario Outline: 02 | Validate Successful Submission - Specific Data
     When User types "<firstName>" value to "firstNameInput" element on the "ContactUsPage" page
     And User types "<lastName>" value to "lastNameInput" element on the "ContactUsPage" page
     And User types "<email>" value to "emailInput" element on the "ContactUsPage" page

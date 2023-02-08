@@ -5,11 +5,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import pages.BasePage;
 import pages.SimplePageFactory;
 
 import static utils.WaitUtils.getDriverWait;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CommonSteps {
 
@@ -32,7 +32,15 @@ public class CommonSteps {
     BasePage page = SimplePageFactory.getPage(pageName);
     WebElement elementFromPage = page.getElementByName(elementName);
 
-    Assert.assertEquals(elementFromPage.getText(), expectedText);
+    assertThat(elementFromPage.getText()).isEqualTo(expectedText);
+  }
+
+  @Then("User sees {string} element contains {string} text on the {string} page")
+  public void verifyElementContainsText(String elementName, String expectedText, String pageName) {
+    BasePage page = SimplePageFactory.getPage(pageName);
+    WebElement elementFromPage = page.getElementByName(elementName);
+
+    assertThat(elementFromPage.getText()).contains(expectedText);
   }
 
   @Then("User sees {string} text in the alert window")
@@ -40,7 +48,7 @@ public class CommonSteps {
     getDriverWait().until(ExpectedConditions.alertIsPresent());
     String actualText = DriverProvider.getInstance().switchTo().alert().getText();
 
-    Assert.assertEquals(actualText, expectedText);
+    assertThat(actualText).isEqualTo(expectedText);
   }
 
   @Given("User opens {string} page")
