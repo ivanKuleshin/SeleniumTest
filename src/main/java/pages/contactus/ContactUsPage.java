@@ -1,6 +1,8 @@
 package pages.contactus;
 
+import exceptions.TestExecutionException;
 import lombok.Getter;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -41,6 +43,12 @@ public class ContactUsPage extends BasePage {
 
   @Override
   public void pageIsValid() {
-    WaitUtils.getDriverWait().until(ExpectedConditions.visibilityOf(pageHeading));
+    try {
+      WaitUtils.getDriverWait().until(ExpectedConditions.visibilityOf(pageHeading));
+    } catch (TimeoutException timeoutException) {
+      // TODO: should be replaced by logger
+      System.out.println(timeoutException.getMessage());
+      throw new TestExecutionException(PAGE_IS_NOT_VALID_MESSAGE, this.getClass().getSimpleName());
+    }
   }
 }

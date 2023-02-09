@@ -1,15 +1,17 @@
 package stepDefinitions;
 
 import driver.DriverProvider;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.BasePage;
+import pages.BasePopUp;
 import pages.SimplePageFactory;
 
-import static utils.WaitUtils.getDriverWait;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static utils.WaitUtils.getDriverWait;
 
 public class CommonSteps {
 
@@ -27,6 +29,15 @@ public class CommonSteps {
     page.waitAndClick(elementToClick);
   }
 
+  @And("User performs default click on the {string} element in the {string} popUp on the {string} page")
+  public void userPerformDefaultClickInPopUp(String elementName, String popUpName, String pageName) {
+    BasePage page = SimplePageFactory.getPage(pageName);
+    BasePopUp popUp = page.getPopUpByName(popUpName);
+    WebElement elementToClick = popUp.getElementByName(elementName);
+
+    popUp.waitAndClick(elementToClick);
+  }
+
   @Then("User sees {string} element with a {string} text on the {string} page")
   public void verifyElementWithTextOnThePage(String elementName, String expectedText, String pageName) {
     BasePage page = SimplePageFactory.getPage(pageName);
@@ -41,6 +52,30 @@ public class CommonSteps {
     WebElement elementFromPage = page.getElementByName(elementName);
 
     assertThat(elementFromPage.getText()).contains(expectedText);
+  }
+
+  @And("User sees {string} popUp on the {string} page")
+  public void waitPopUpIsVisible(String popUpName, String pageName) {
+    BasePage page = SimplePageFactory.getPage(pageName);
+
+    page.getPopUpByName(popUpName).waitUntilVisible();
+  }
+
+  @And("User doesn't see {string} popUp on the {string} page")
+  public void waitPopUpIsNotVisible(String popUpName, String pageName) {
+    BasePage page = SimplePageFactory.getPage(pageName);
+
+    page.getPopUpByName(popUpName).waitUntilInvisible();
+  }
+
+  @Then("User sees {string} element contains {string} text in the {string} popUp on the {string} page")
+  public void verifyPopUpElementContainsText(
+      String elementName, String expectedText, String popUpName, String pageName) {
+    BasePage page = SimplePageFactory.getPage(pageName);
+    BasePopUp popUp = page.getPopUpByName(popUpName);
+    WebElement elementFromPopUp = popUp.getElementByName(elementName);
+
+    assertThat(elementFromPopUp.getText()).contains(expectedText);
   }
 
   @Then("User sees {string} text in the alert window")

@@ -3,6 +3,7 @@ package pages;
 import com.google.common.collect.ImmutableMap;
 import driver.DriverProvider;
 import exceptions.TestExecutionException;
+import pages.ajaxloader.AjaxLoaderPage;
 import pages.contactus.ContactUsPage;
 import pages.login.LoginPage;
 import pages.texteffects.TextEffectsPage;
@@ -17,6 +18,7 @@ public class SimplePageFactory {
           .put("ContactUsPage", ContactUsPage.class)
           .put("LoginPage", LoginPage.class)
           .put("TextEffectsPage", TextEffectsPage.class)
+          .put("AjaxLoaderPage", AjaxLoaderPage.class)
           .build();
 
   public static BasePage getPage(String pageName) {

@@ -1,51 +1,41 @@
 package pages;
 
-import driver.DriverProvider;
 import exceptions.TestExecutionException;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import properties.PropertiesProvider;
 import utils.WaitUtils;
 
 import static utils.WaitUtils.getDriverWait;
 
-public abstract class BasePage {
-  protected WebDriver driver = DriverProvider.getInstance();
-  protected PropertiesProvider propertiesProvider = PropertiesProvider.getInstance();
+public abstract class BasePage extends AbstractPage{
+  protected static final String PAGE_IS_NOT_VALID_MESSAGE = "Page '%s' is NOT valid!";
 
   public BasePage() {
-    PageFactory.initElements(driver, this);
+    super();
   }
 
   public abstract void openPage();
-
   public abstract void pageIsValid();
 
   public void navigateTo(String url) {
     driver.get(url);
   }
 
-  public void waitAndClick(WebElement elementToClick) {
-    getDriverWait().until(ExpectedConditions.elementToBeClickable(elementToClick)).click();
-  }
-
   public void waitAndType(WebElement webElement, String textToType) {
     getDriverWait().until(ExpectedConditions.elementToBeClickable(webElement)).sendKeys(textToType);
   }
 
-  public WebElement getElementByName(String elementName) {
+  public BasePopUp getPopUpByName(String popUpName) {
     try {
-      return (WebElement) FieldUtils.readField(this, elementName, true);
+      return (BasePopUp) FieldUtils.readField(this, popUpName, true);
     } catch (IllegalAccessException exception) {
       // TODO: should be replaced by logger
       exception.printStackTrace();
       throw new TestExecutionException(
-              "Element '%s' was not found on the '%s' page", elementName, this.getClass());
+          "Element '%s' was not found on the '%s' page", popUpName, this.getClass());
     }
   }
 

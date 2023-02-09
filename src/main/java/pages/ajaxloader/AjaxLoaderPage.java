@@ -1,4 +1,4 @@
-package pages.login;
+package pages.ajaxloader;
 
 import exceptions.TestExecutionException;
 import lombok.Getter;
@@ -10,41 +10,34 @@ import pages.BasePage;
 import utils.WaitUtils;
 
 @Getter
-public class LoginPage extends BasePage {
+public class AjaxLoaderPage extends BasePage {
 
-  @FindBy(id = "text")
-  private WebElement userNameInput;
-  @FindBy(id = "password")
-  private WebElement userPasswordInput;
+  @FindBy(id = "loader")
+  private WebElement ajaxLoader;
 
-  @FindBy(id = "login-button")
-  private WebElement loginButton;
+  @FindBy(id = "button1")
+  private WebElement clickMeButton;
 
-  public LoginPage() {
+  private final ModalPopUp modalPopUp;
+
+  public AjaxLoaderPage() {
     super();
+    this.modalPopUp = new ModalPopUp();
   }
 
   @Override
   public void openPage() {
-    navigateTo(propertiesProvider.getProperty("loginPageUrl"));
+    navigateTo(propertiesProvider.getProperty("ajaxLoaderPageUrl"));
   }
 
   @Override
   public void pageIsValid() {
     try {
-      WaitUtils.getDriverWait().until(ExpectedConditions.elementToBeClickable(loginButton));
+      WaitUtils.getDriverWait().until(ExpectedConditions.invisibilityOf(ajaxLoader));
     } catch (TimeoutException timeoutException) {
       // TODO: should be replaced by logger
       System.out.println(timeoutException.getMessage());
       throw new TestExecutionException(PAGE_IS_NOT_VALID_MESSAGE, this.getClass().getSimpleName());
     }
-  }
-
-  public void enterUserName(String userName) {
-    waitAndType(userNameInput, userName);
-  }
-
-  public void enterPassword(String userPassword) {
-    waitAndType(userPasswordInput, userPassword);
   }
 }
